@@ -51,18 +51,27 @@ module.exports.loop = function () {
 
     if(Game.spawns.Origin.spawning == null) {
         if(numHarvesters < desiredHarvesters) {
-            var newName = Game.spawns.Origin.createCreep([WORK,CARRY, CARRY, MOVE,MOVE], undefined, {role: 'harvester'});
-            console.log('Spawning new harvester: ' + newName);
+            var harvesterLoadout = [WORK, CARRY, CARRY, MOVE,MOVE];
+            if(game.spawns.Origin.canSpawn(harvesterLoadout)) {
+                var newName = Game.spawns.Origin.createCreep(harvesterLoadout, undefined, {role: 'harvester'});
+                console.log('Spawning new harvester: ' + newName);
+            }
         }
 
         if(numUpgraders < desiredUpgraders) {
-            var newName = Game.spawns.Origin.createCreep([WORK,CARRY, CARRY, MOVE,MOVE], undefined, {role: 'upgrader'});
-            console.log('Spawning new upgrader: ' + newName);
+            var upgraderLoadout = [WORK, CARRY, CARRY, MOVE,MOVE];
+            if(game.spawns.Origin.canSpawn(upgraderLoadout)) {
+                var newName = Game.spawns.Origin.createCreep(upgraderLoadout, undefined, {role: 'upgrader'});
+                console.log('Spawning new upgrader: ' + newName);
+            }
         }
 
         if(numBuilders < desiredBuilders) {
-            var newName = Game.spawns.Origin.createCreep([WORK,CARRY, CARRY, MOVE,MOVE], undefined, {role: 'builder'});
-            console.log('Spawning new builder: ' + newName);
+            var builderLoadout = [WORK, CARRY, CARRY, MOVE,MOVE];
+            if(Game.spawns.Origin.canSpawn(builderLoadout)) {
+                var newName = Game.spawns.Origin.createCreep(builderLoadout, undefined, {role: 'builder'});
+                console.log('Spawning new builder: ' + newName);
+            }
         }
     }
     numHarvesters = 0;
