@@ -49,17 +49,17 @@ module.exports.loop = function () {
 
     if(Game.spawns.Origin.spawning == null) {
         if(numHarvesters < 2) {
-            var newName = Game.spawns.Origin.createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+            var newName = Game.spawns.Origin.createCreep([WORK,CARRY, CARRY, MOVE,MOVE], undefined, {role: 'harvester'});
             console.log('Spawning new harvester: ' + newName);
         }
 
         if(numUpgraders < 2) {
-            var newName = Game.spawns.Origin.createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+            var newName = Game.spawns.Origin.createCreep([WORK,CARRY, CARRY, MOVE,MOVE], undefined, {role: 'upgrader'});
             console.log('Spawning new upgrader: ' + newName);
         }
 
         if(numBuilders < 2) {
-            var newName = Game.spawns.Origin.createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
+            var newName = Game.spawns.Origin.createCreep([WORK,CARRY, CARRY, MOVE,MOVE], undefined, {role: 'builder'});
             console.log('Spawning new builder: ' + newName);
         }
     }
