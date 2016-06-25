@@ -28,18 +28,23 @@ var roleBuilder = {
             }
         }
         else {
-            var sources = creep.room.find(FIND_STRUCTURES,
-                function(o) {
+            var sources = creep.room.find(FIND_STRUCTURES, {
+                filter: (o) => {
                     return (o instanceof StructureContainer ||
-                    o instanceof StructureExtension ||
-                    o instanceof StructureSpawn ||
-                    o instanceof StructureStorage) &&
-                    (o.store[RESOURCE_ENERGY] > (source.storeCapacity >> 1))
+                        o instanceof StructureExtension ||
+                        o instanceof StructureStorage) &&
+                        (o.store[RESOURCE_ENERGY] > (o.storeCapacity >> 1))
+                    }
                 });
             
             if(sources.length) {
-                if(creep.transfer(sources[0], RESOURCE_ENERGY, creep.carryCapacity) == ERR_NOT_IN_RANGE) {
+                //var decision = creep.transfer(sources[0], RESOURCE_ENERGY, creep.carryCapacity);
+                var decision = sources[0].transfer(creep, RESOURCE_ENERGY); 
+                if(decision == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
+                }
+                else {
+                    creep.say(decision);
                 }
             }
             else {
