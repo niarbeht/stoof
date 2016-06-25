@@ -35,23 +35,30 @@ module.exports.loop = function () {
 */
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if(creep.memory.role == 'harvester') {
-            roleHarvester.run(creep);
-            numHarvesters += 1;
+
+        if(creep.ticksToLive == 1) {
+            creep.suicide();
+            delete Memory.creeps[name];
         }
-        if(creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep);
-            numUpgraders += 1;
-        }
-        if(creep.memory.role == 'builder') {
-            roleBuilder.run(creep);
-            numBuilders += 1;
+        else {
+            if(creep.memory.role == 'harvester') {
+                roleHarvester.run(creep);
+                numHarvesters += 1;
+            }
+            if(creep.memory.role == 'upgrader') {
+                roleUpgrader.run(creep);
+                numUpgraders += 1;
+            }
+            if(creep.memory.role == 'builder') {
+                roleBuilder.run(creep);
+                numBuilders += 1;
+            }
         }
     }
 
     if(Game.spawns.Origin.spawning == null) {
         if(numHarvesters < desiredHarvesters) {
-            var harvesterLoadout = [WORK, CARRY, CARRY, MOVE,MOVE];
+            var harvesterLoadout = [WORK, WORK, CARRY, MOVE,MOVE];
             if(Game.spawns.Origin.canCreateCreep(harvesterLoadout) == OK) {
                 var newName = Game.spawns.Origin.createCreep(harvesterLoadout, undefined, {role: 'harvester'});
                 switch(newName) {
