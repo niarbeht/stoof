@@ -52,7 +52,7 @@ module.exports.loop = function () {
     if(Game.spawns.Origin.spawning == null) {
         if(numHarvesters < desiredHarvesters) {
             var harvesterLoadout = [WORK, CARRY, CARRY, MOVE,MOVE];
-            if(Game.spawns.Origin.canCreateCreep(harvesterLoadout)) {
+            if(Game.spawns.Origin.canCreateCreep(harvesterLoadout) == OK) {
                 var newName = Game.spawns.Origin.createCreep(harvesterLoadout, undefined, {role: 'harvester'});
                 switch(newName) {
                     case ERR_NOT_ENOUGH_ENERGY:
@@ -66,7 +66,7 @@ module.exports.loop = function () {
 
         if(numUpgraders < desiredUpgraders) {
             var upgraderLoadout = [WORK, CARRY, CARRY, MOVE,MOVE];
-            if(Game.spawns.Origin.canCreateCreep(upgraderLoadout)) {
+            if(Game.spawns.Origin.canCreateCreep(upgraderLoadout) == OK) {
                 var newName = Game.spawns.Origin.createCreep(upgraderLoadout, undefined, {role: 'upgrader'});
                 switch(newName) {
                     case ERR_NOT_ENOUGH_ENERGY:
@@ -80,7 +80,7 @@ module.exports.loop = function () {
 
         if(numBuilders < desiredBuilders) {
             var builderLoadout = [WORK, CARRY, CARRY, MOVE,MOVE];
-            if(Game.spawns.Origin.canCreateCreep(builderLoadout)) {
+            if(Game.spawns.Origin.canCreateCreep(builderLoadout) == OK) {
                 var newName = Game.spawns.Origin.createCreep(builderLoadout, undefined, {role: 'builder'});
                 switch(newName) {
                     case ERR_NOT_ENOUGH_ENERGY:
