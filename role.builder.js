@@ -31,7 +31,6 @@ var roleBuilder = {
             var sources = creep.room.find(FIND_STRUCTURES, {
                 filter: (o) => {
                     return (o instanceof StructureContainer ||
-                        o instanceof StructureExtension ||
                         o instanceof StructureStorage) &&
                         (o.store[RESOURCE_ENERGY] > (o.storeCapacity >> 1))
                     }
