@@ -52,25 +52,43 @@ module.exports.loop = function () {
     if(Game.spawns.Origin.spawning == null) {
         if(numHarvesters < desiredHarvesters) {
             var harvesterLoadout = [WORK, CARRY, CARRY, MOVE,MOVE];
-            if(game.spawns.Origin.canSpawn(harvesterLoadout)) {
+            if(Game.spawns.Origin.canCreateCreep(harvesterLoadout)) {
                 var newName = Game.spawns.Origin.createCreep(harvesterLoadout, undefined, {role: 'harvester'});
-                console.log('Spawning new harvester: ' + newName);
+                switch(newName) {
+                    case ERR_NOT_ENOUGH_ENERGY:
+                        console.log('Insufficient energy to spawn harvester');
+                        break;
+                    default:
+                        console.log('Spawning new harvester: ' + newName);
+                }
             }
         }
 
         if(numUpgraders < desiredUpgraders) {
             var upgraderLoadout = [WORK, CARRY, CARRY, MOVE,MOVE];
-            if(game.spawns.Origin.canSpawn(upgraderLoadout)) {
+            if(Game.spawns.Origin.canCreateCreep(upgraderLoadout)) {
                 var newName = Game.spawns.Origin.createCreep(upgraderLoadout, undefined, {role: 'upgrader'});
-                console.log('Spawning new upgrader: ' + newName);
+                switch(newName) {
+                    case ERR_NOT_ENOUGH_ENERGY:
+                        console.log('Insufficient energy to spawn upgrader');
+                        break;
+                    default:
+                        console.log('Spawning new upgrader: ' + newName);
+                }
             }
         }
 
         if(numBuilders < desiredBuilders) {
             var builderLoadout = [WORK, CARRY, CARRY, MOVE,MOVE];
-            if(Game.spawns.Origin.canSpawn(builderLoadout)) {
+            if(Game.spawns.Origin.canCreateCreep(builderLoadout)) {
                 var newName = Game.spawns.Origin.createCreep(builderLoadout, undefined, {role: 'builder'});
-                console.log('Spawning new builder: ' + newName);
+                switch(newName) {
+                    case ERR_NOT_ENOUGH_ENERGY:
+                        console.log('Insufficient energy to spawn builder');
+                        break;
+                    default:
+                        console.log('Spawning new builder: ' + newName);
+                }
             }
         }
     }
