@@ -41,20 +41,29 @@ var roleBuilder = {
             
             if(sources.length) {
                 if(sources[0].transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(source);
-                }
-                else {
-                    creep.say(decision);
+                    creep.moveTo(sources[0]);
                 }
             }
             else {
-                sources = utilsRoom.getAllSources(creep.room);
-                if(sources.length) {
-                    if(creep.harvest(sources[creep.memory.harvestTarget]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(sources[creep.memory.harvestTarget]);
-                    }
+                //Move to staging flag
+                //FIND_FLAGS
+                var staging = creep.room.find(FIND_FLAGS, {
+                    filter: (f) => {
+                        return (f.color == COLOR_GREEN)
+                        }
+                });
+                if(staging.length) {
+                    creep.moveTo(staging[0]);
                 }
             }
+            // else {
+            //     sources = utilsRoom.getAllSources(creep.room);
+            //     if(sources.length) {
+            //         if(creep.harvest(sources[creep.memory.harvestTarget]) == ERR_NOT_IN_RANGE) {
+            //             creep.moveTo(sources[creep.memory.harvestTarget]);
+            //         }
+            //     }
+            // }
         }
     }
 };
