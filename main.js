@@ -6,6 +6,8 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleDefender = require('role.defender');
 var roleMaintainer = require('role.maintainer');
+var roleDistributor = require('role.distributor');
+var roleAttacker = require('role.attacker');
 var numHarvesters = 0;
 var desiredHarvesters = 10;
 var numBuilders = 0;
@@ -14,6 +16,8 @@ var numUpgraders = 0;
 var desiredUpgraders = 3;
 var numMaintainers = 0;
 var desiredMaintainers = 2;
+var numDistributors = 0;
+var desiredDistributors = 2;
 var numDefenders = 0;
 var desiredDefenders = 9;
 
@@ -56,26 +60,43 @@ module.exports.loop = function () {
             } else if(creep.memory.role == 'maintainer') {
                 roleMaintainer.run(creep);
                 numMaintainers += 1;
+            } else if(creep.memory.role == 'distributor') {
+                roleDistributor.run(creep);
+                numDistributors += 1;
             } else if(creep.memory.role == 'defender') {
                 roleDefender.run(creep);
                 numDefenders += 1;
+            } else if(creep.memory.role == 'attacker') {
+                roleAttacker.run(creep);
             }
         }
     }
 
-    console.log(numHarvesters + ' Harvesters, ' + numUpgraders + ' Upgraders, ' + numBuilders + ' Builders, ' + numMaintainers + ' Maintainers, ' + numDefenders + ' Defenders');
+    console.log(numHarvesters + ' Harvesters, ' + numUpgraders + ' Upgraders, ' + numBuilders + ' Builders, ' + numMaintainers + ' Maintainers, ' + numDefenders + ' Defenders, ' + numDistributors + ' Distributors');
 
     if (Game.spawns.Origin.spawning == null) {
         if (numHarvesters < desiredHarvesters) {
             var harvesterLoadout = [MOVE,MOVE,WORK,WORK,CARRY];
             if(Game.spawns.Origin.canCreateCreep(harvesterLoadout) == OK) {
-                var newName = Game.spawns.Origin.createCreep(harvesterLoadout, undefined, {role: 'harvester', source: '55db32ccefa8e3fe66e05429', sink: ''}); //or 55db32ccefa8e3fe66e0542a
+                var newName = Game.spawns.Origin.createCreep(harvesterLoadout, undefined, {role: 'harvester', source: '55db32ccefa8e3fe66e05429', sink: '577043ecb50323c754c7551c'}); //or 55db32ccefa8e3fe66e0542a
                 switch(newName) {
                     case ERR_NOT_ENOUGH_ENERGY:
                         console.log('Insufficient energy to spawn harvester');
                         break;
                     default:
                         console.log('Spawning new harvester: ' + newName);
+                }
+            }
+        } else if (numDistributors < desiredDistributors) {
+            var distributorLoadout = [MOVE,MOVE,MOVE,CARRY,CARRY,CARRY];
+            if(Game.spawns.Origin.canCreateCreep(distributorLoadout) == OK) {
+                var newName = Game.spawns.Origin.createCreep(distributorLoadout, undefined, {role: 'distributor', harvestTarget: 0});
+                switch(newName) {
+                    case ERR_NOT_ENOUGH_ENERGY:
+                        console.log('Insufficient energy to spawn distributor');
+                        break;
+                    default:
+                        console.log('Spawning new distributor: ' + newName);
                 }
             }
         } else if (numUpgraders < desiredUpgraders) {
@@ -133,5 +154,6 @@ module.exports.loop = function () {
     numBuilders = 0;
     numUpgraders = 0;
     numMaintainers = 0;
+    numDistributors = 0;
     numDefenders = 0;
 }
