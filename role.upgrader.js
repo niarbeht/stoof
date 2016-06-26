@@ -1,3 +1,4 @@
+var utilsRoom = require('utils.room');
 var roleUpgrader = {
 
     /** @param {Creep} creep **/
@@ -16,25 +17,15 @@ var roleUpgrader = {
             }
         }
         else {
-            var sources = creep.room.find(FIND_STRUCTURES, {
-                filter: (o) => {
-                    return (o instanceof StructureContainer ||
-                        o instanceof StructureStorage) &&
-                        (o.store[RESOURCE_ENERGY] > (o.storeCapacity >> 1))
-                    }
-                });
+            var sources = utilsRoom.getContainersAndStorages(creep.room);
             
             if(sources.length) {
-                var decision = creep.transfer(sources[0], RESOURCE_ENERGY, creep.carryCapacity); 
-                if(decision == ERR_NOT_IN_RANGE) {
+                if(creep.transfer(sources[0], RESOURCE_ENERGY, creep.carryCapacity) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
-                }
-                else {
-                    creep.say(decision);
                 }
             }
             else {
-                var sources = creep.room.find(FIND_SOURCES);
+                var sources = utilsRoom.getAllSources(creep.room);
                 if(sources.length) {
                     if(creep.harvest(sources[creep.memory.harvestTarget]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(sources[creep.memory.harvestTarget]);

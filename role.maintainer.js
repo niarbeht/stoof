@@ -1,3 +1,4 @@
+var utilsRoom = require('utils.room');
 var roleMaintainer = {
 
     /** @param {Creep} creep **/
@@ -12,21 +13,21 @@ var roleMaintainer = {
 
         if(creep.memory.maintaining) {
             //TODO repair logic
-            var targets = creep.room.find(FIND_MY_STRUCTURES, {filter: object => object.hits < object.hitsMax});
+            var targets = utilsRoom.getMyDamagedStructures(creep.room);
             if(targets.length) {
                 if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
                 } 
             }
             else {
-                targets = creep.room.find(FIND_STRUCTURES, {filter: object => object.hits < object.hitsMax});
+                targets = utilsRoom.getUnownedDamagedStructures(creep.room);
                 if(targets.length) {
                     if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(targets[0]);
                     } 
                 }
                 else {
-                    targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                    targets = utilsRoom.getConstructionSites(creep.room);
                     if(targets.length) {
                         if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                             creep.moveTo(targets[0]);
@@ -36,18 +37,10 @@ var roleMaintainer = {
             }
         }
         else {
-            var sources = creep.room.find(FIND_STRUCTURES, {
-                filter: (o) => {
-                    return (o instanceof StructureContainer ||
-                        o instanceof StructureStorage) &&
-                        (o.store[RESOURCE_ENERGY] > (o.storeCapacity >> 1))
-                    }
-                });
+            var sources = utilsRoom.getContainersAndStorages(creep.room);
             
             if(sources.length) {
-                //var decision = creep.transfer(sources[0], RESOURCE_ENERGY, creep.carryCapacity);
-                var decision = sources[0].transfer(creep, RESOURCE_ENERGY); 
-                if(decision == ERR_NOT_IN_RANGE) {
+                if(sources[0].transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
                 }
                 else {
@@ -55,7 +48,7 @@ var roleMaintainer = {
                 }
             }
             else {
-                var sources = creep.room.find(FIND_SOURCES);
+                var sources = utilsRoom.getAllSources(creep.room);
                 if(sources.length) {
                     if(creep.harvest(sources[creep.memory.harvestTarget]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(sources[creep.memory.harvestTarget]);

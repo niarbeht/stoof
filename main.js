@@ -1,9 +1,13 @@
+//NOTE any variables you want to preserve between ticks needs to be in "memory"
+//TODO make a "friends list" in memory
+
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleDefender = require('role.defender');
+var roleMaintainer = require('role.maintainer');
 var numHarvesters = 0;
-var desiredHarvesters = 8;
+var desiredHarvesters = 10;
 var numBuilders = 0;
 var desiredBuilders = 3;
 var numUpgraders = 0;
@@ -11,11 +15,10 @@ var desiredUpgraders = 3;
 var numMaintainers = 0;
 var desiredMaintainers = 2;
 var numDefenders = 0;
-var desiredDefenders = 10;
+var desiredDefenders = 9;
 
 module.exports.loop = function () {
-
-    
+//TODO add round-robin GC
 
 /*
     var tower = Game.getObjectById('TOWER_ID');
@@ -64,9 +67,9 @@ module.exports.loop = function () {
 
     if (Game.spawns.Origin.spawning == null) {
         if (numHarvesters < desiredHarvesters) {
-            var harvesterLoadout = [MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY];
+            var harvesterLoadout = [MOVE,MOVE,WORK,WORK,CARRY];
             if(Game.spawns.Origin.canCreateCreep(harvesterLoadout) == OK) {
-                var newName = Game.spawns.Origin.createCreep(harvesterLoadout, undefined, {role: 'harvester', harvestTarget: 0});
+                var newName = Game.spawns.Origin.createCreep(harvesterLoadout, undefined, {role: 'harvester', source: '55db32ccefa8e3fe66e05429', sink: ''}); //or 55db32ccefa8e3fe66e0542a
                 switch(newName) {
                     case ERR_NOT_ENOUGH_ENERGY:
                         console.log('Insufficient energy to spawn harvester');
@@ -76,7 +79,7 @@ module.exports.loop = function () {
                 }
             }
         } else if (numUpgraders < desiredUpgraders) {
-            var upgraderLoadout = [MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY];
+            var upgraderLoadout = [MOVE,MOVE,WORK,WORK,CARRY];
             if(Game.spawns.Origin.canCreateCreep(upgraderLoadout) == OK) {
                 var newName = Game.spawns.Origin.createCreep(upgraderLoadout, undefined, {role: 'upgrader', harvestTarget: 0});
                 switch(newName) {
@@ -88,7 +91,7 @@ module.exports.loop = function () {
                 }
             }
         } else if (numBuilders < desiredBuilders) {
-            var builderLoadout = [MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY];
+            var builderLoadout = [MOVE,MOVE,WORK,WORK,CARRY];
             if(Game.spawns.Origin.canCreateCreep(builderLoadout) == OK) {
                 var newName = Game.spawns.Origin.createCreep(builderLoadout, undefined, {role: 'builder', harvestTarget: 0});
                 switch(newName) {
@@ -100,7 +103,7 @@ module.exports.loop = function () {
                 }
             }
         } else if (numMaintainers < desiredMaintainers) {
-            var maintainerLoadout = [MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY];
+            var maintainerLoadout = [MOVE,MOVE,WORK,WORK,CARRY];
             if(Game.spawns.Origin.canCreateCreep(maintainerLoadout) == OK) {
                 var newName = Game.spawns.Origin.createCreep(maintainerLoadout, undefined, {role: 'maintainer', harvestTarget: 0});
                 switch(newName) {
