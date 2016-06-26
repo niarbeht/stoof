@@ -33,6 +33,15 @@ var utils = {
                 delete Memory.creeps[name];
             }
         }
+    },
+
+    changeRoles: function(a, b) {
+        for (var name in Game.creeps) {
+            var creep = Game.creeps[name];
+            if(creep.memory.role == a) {
+                creep.memory.role = b;
+            }
+        }
     }
 };
 

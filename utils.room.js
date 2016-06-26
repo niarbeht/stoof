@@ -16,6 +16,9 @@ var containersAndStorages = [];
 var unfilledContainersAndStorages_LT = [];
 var unfilledContainersAndStorages = [];
 
+var nonEmptyContainersAndStorages_LT = [];
+var nonEmptyContainersAndStorages = [];
+
 var allSources_LT = [];
 var allSources = [];
 
@@ -108,7 +111,7 @@ var utilsRoom = {
                 filter: (o) => {
                     return (o instanceof StructureContainer ||
                         o instanceof StructureStorage) &&
-                        (o.store[RESOURCE_ENERGY] > (o.storeCapacity >> 1))
+                        (o.store[RESOURCE_ENERGY] > (o.storeCapacity >> 2))
                 }
             });
         containersAndStorages_LT[room] = Game.time;
@@ -142,6 +145,27 @@ var utilsRoom = {
         else {
             utilsRoom.generateUnfilledContainersAndStorages(room);
             return unfilledContainersAndStorages[room];
+        }
+    },
+
+    generateNonEmptyContainersAndStorages: function(room) {
+        nonEmptyContainersAndStorages[room] = room.find(FIND_STRUCTURES, {
+                filter: (o) => {
+                    return (o instanceof StructureContainer ||
+                        o instanceof StructureStorage) &&
+                        (o.store[RESOURCE_ENERGY] != 0)
+                }
+            });
+        nonEmptyContainersAndStorages_LT[room] = Game.time;
+    },
+
+    getNonEmptyContainersAndStorages: function(room) {
+        if(nonEmptyContainersAndStorages_LT[room]) {
+            return nonEmptyContainersAndStorages[room];
+        }
+        else {
+            utilsRoom.generateNonEmptyContainersAndStorages(room);
+            return nonEmptyContainersAndStorages[room];
         }
     },
 
