@@ -20,7 +20,7 @@ var roleUpgrader = {
             var sources = utilsRoom.getContainersAndStorages(creep.room);
             
             if(sources.length) {
-                if(creep.transfer(sources[0], RESOURCE_ENERGY, creep.carryCapacity) == ERR_NOT_IN_RANGE) {
+                if(sources[0].transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(sources[0]);
                 }
             }
