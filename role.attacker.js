@@ -7,9 +7,26 @@ var roleAttacker = {
                         return !(Memory.friends.indexOf(c.owner) > -1); //TODO FIXME THIS IS AWFUL
                     }
         });
+        targe
         if(target) {
+
             if(creep.attack(target) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(target);
+                if(creep.moveTo(target) == ERR_NO_PATH) {
+                    //Try structures.
+
+                    target = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES, {
+                        filter: (c) => {
+                                    return !(Memory.friends.indexOf(c.owner) > -1); //TODO FIXME THIS IS AWFUL
+                                }
+                    });
+                    
+                    if(target) {
+                        if(creep.attack(target) == ERR_NOT_IN_RANGE) {
+                            if(creep.moveTo(target) == ERR_NO_PATH) {
+                            }
+                        }
+                    }
+                }
             }
         }
         else {
