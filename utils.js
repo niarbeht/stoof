@@ -42,6 +42,15 @@ var utils = {
                 creep.memory.role = b;
             }
         }
+    },
+
+    avgCPU: function() {
+        var j = 0;
+        for (var i = 0; i < Memory.cpuBuf.length; i++) {
+            j += Memory.cpuBuf[i]
+        }
+        j /= Memory.cpuBuf.length;
+        console.log("Average CPU " + j);
     }
 };
 

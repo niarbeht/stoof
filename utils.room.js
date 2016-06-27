@@ -90,7 +90,17 @@ var utilsRoom = {
 
     generateUnownedDamagedStructures: function(room) {
         unownedDamagedStructures[room] = room.find(FIND_STRUCTURES, {filter: (structure) => {
-                return !(structure instanceof OwnedStructure) && (structure.hits < structure.hitsMax);
+                if (!(structure instanceof OwnedStructure)) {
+                    if (structure instanceof StructureWall ) {
+                        return structure.hits < 50000;
+                    }
+                    else {
+                        return structure.hits < structure.hitsMax;
+                    }
+                }
+                else {
+                    return false;
+                }
             }
         });
         unownedDamagedStructures_LT[room] = Game.time;
