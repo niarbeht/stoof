@@ -8,6 +8,7 @@ var roleDefender = require('role.defender');
 var roleMaintainer = require('role.maintainer');
 var roleDistributor = require('role.distributor');
 var roleAttacker = require('role.attacker');
+var roleTurret = require('role.turret');
 var numHarvesters = 0;
 var desiredHarvesters = 4;
 var numBuilders = 0;
@@ -70,6 +71,11 @@ module.exports.loop = function () {
                 roleAttacker.run(creep);
             }
         }
+    }
+
+    var turrets = _.filter(Game.structures, function (structure) { return structure instanceof StructureTower; });
+    for(var t in turrets) {
+        roleTurret.run(turrets[t]);
     }
 
     console.log(numHarvesters + ' Harvesters, ' + numUpgraders + ' Upgraders, ' + numBuilders + ' Builders, ' + numMaintainers + ' Maintainers, ' + numDefenders + ' Defenders, ' + numDistributors + ' Distributors');
@@ -139,7 +145,7 @@ module.exports.loop = function () {
                 }
             }
         } else if (numDefenders < desiredDefenders) {
-            //BUILD SOLDIERS
+            //Build defenders
             var defenderLoadout = [TOUGH,TOUGH,MOVE,MOVE,MOVE,ATTACK,MOVE,ATTACK,MOVE,ATTACK];
             if(Game.spawns.Origin.canCreateCreep(defenderLoadout) == OK) {
                 var newName = Game.spawns.Origin.createCreep(defenderLoadout, undefined, {role: 'defender'});
@@ -149,6 +155,19 @@ module.exports.loop = function () {
                     break;
                 default:
                     console.log('Spawning new defender: ' + newName);
+                }
+            }
+        } else {
+            //Build attackers
+            var attackerLoadout = [TOUGH,MOVE,ATTACK,MOVE];
+            if(Game.spawns.Origin.canCreateCreep(attackerLoadout) == OK) {
+                var newName = Game.spawns.Origin.createCreep(attackerLoadout, undefined, {role: 'attacker'});
+                switch(newName) {
+                case ERR_NOT_ENOUGH_ENERGY:
+                    console.log('Insufficient energy to spawn attacker');
+                    break;
+                default:
+                    console.log('Spawning new attacker: ' + newName);
                 }
             }
         }
