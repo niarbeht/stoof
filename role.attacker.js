@@ -7,7 +7,7 @@ var roleAttacker = {
                         return !(Memory.friends.indexOf(c.owner) > -1); //TODO FIXME THIS IS AWFUL
                     }
         });
-        targe
+        
         if(target) {
 
             if(creep.attack(target) == ERR_NOT_IN_RANGE) {

@@ -25,6 +25,12 @@ var allSources = [];
 var sourcesNonEmpty_LT = [];
 var sourcesNonEmpty = [];
 
+var myUnfilledTurrets_LT = [];
+var myUnfilledTurrets = [];
+
+var myEmptyTurrets_LT = [];
+var myEmptyTurrets = [];
+
 var utilsRoom = {
     /**
      * @param {Room} room The room to grab stuff for.
@@ -72,7 +78,7 @@ var utilsRoom = {
 
     generateMyDamagedStructures: function(room) {
         myDamagedStructures[room] = room.find(FIND_MY_STRUCTURES, {filter: (structure) => {
-                return (structure.hits < structure.hitsMax);
+                return (structure.hits < structure.hitsMax) && (structure.hits < 50000);
             }
         });
         myDamagedStructures_LT[room] = Game.time;
@@ -210,6 +216,42 @@ var utilsRoom = {
         else {
             utilsRoom.generateSourcesNonEmpty(room);
             return sourcesNonEmpty[room];
+        }
+    },
+
+    generateMyUnfilledTurrets: function(room) {
+        myUnfilledTurrets[room] = room.find(FIND_MY_STRUCTURES, {filter: (structure) => {
+                return (structure instanceof StructureTower) && (structure.energy < structure.energyCapacity);
+            }
+        });
+        myUnfilledTurrets_LT[room] = Game.time;
+    },
+
+    getMyUnfilledTurrets: function(room) {
+        if (myUnfilledTurrets_LT[room] == Game.time) {
+            return myUnfilledTurrets[room];
+        }
+        else {
+            utilsRoom.generateMyUnfilledTurrets(room);
+            return myUnfilledTurrets[room];
+        }
+    },
+
+    generateMyEmptyTurrets: function(room) {
+        myEmptyTurrets[room] = room.find(FIND_MY_STRUCTURES, {filter: (structure) => {
+                return (structure instanceof StructureTower) && (structure.energy < 10);
+            }
+        });
+        myEmptyTurrets_LT[room] = Game.time;
+    },
+
+    getMyEmptyTurrets: function(room) {
+        if (myEmptyTurrets_LT[room] == Game.time) {
+            return myEmptyTurrets[room];
+        }
+        else {
+            utilsRoom.generateMyEmptyTurrets(room);
+            return myEmptyTurrets[room];
         }
     }
 };

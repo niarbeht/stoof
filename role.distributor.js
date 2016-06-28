@@ -16,10 +16,29 @@ var roleDistributor = {
             }
         }
         else {
-            var sinks = utilsRoom.getSpawnOrExtension(creep.room);
+            var sinks = utilsRoom.getMyEmptyTurrets(creep.room);
 
-            if(creep.transfer(sinks[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sinks[0]);
+            if(sinks.length) {
+                if(creep.transfer(sinks[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(sinks[0]);
+                }
+            }
+            else {
+                sinks = utilsRoom.getSpawnOrExtension(creep.room);
+                if(sinks.length) {
+                    if(creep.transfer(sinks[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(sinks[0]);
+                    }
+                }
+                else { //Supply turrets instead
+                    sinks = utilsRoom.getMyUnfilledTurrets(creep.room);
+
+                    if(sinks.length) {
+                        if(creep.transfer(sinks[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(sinks[0]);
+                        }
+                    }
+                }
             }
         }
     },
