@@ -5,7 +5,7 @@ var roleTurret = {
     run: function(tower) {
         var target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
             filter: (c) => {
-                        return !(Memory.friends.indexOf(c.owner) > -1); //TODO FIXME THIS IS AWFUL
+                        return (Memory.friends.indexOf(c.owner.username) == -1); //TODO FIXME THIS IS AWFUL
                     }
         });
         if(target && (tower.attack(target) == OK)) {
