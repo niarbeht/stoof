@@ -3,6 +3,10 @@ var roleUpgrader = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+        if(creep.memory.source == '' || creep.memory.source == null) {
+            console.log("Performing upgrader load-balance.")
+            roleUpgrader.loadBalance(creep.room);
+        }
 
         if(creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
@@ -17,11 +21,11 @@ var roleUpgrader = {
             }
         }
         else {
-            var sources = utilsRoom.getContainersAndStorages(creep.room);
+            var source = Game.getObjectById(creep.memory.source);
             
-            if(sources.length) {
-                if(sources[0].transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(sources[0]);
+            if(source.store[RESOURCE_ENERGY] > (source.storeCapacity >> 1)) {
+                if(source.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(source);
                 }
             }
             else {
@@ -36,14 +40,27 @@ var roleUpgrader = {
                     creep.moveTo(staging[0]);
                 }
             }
-            // else {
-            //     var sources = utilsRoom.getAllSources(creep.room);
-            //     if(sources.length) {
-            //         if(creep.harvest(sources[creep.memory.harvestTarget]) == ERR_NOT_IN_RANGE) {
-            //             creep.moveTo(sources[creep.memory.harvestTarget]);
-            //         }
-            //     }
-            // }
+        }
+    },
+    
+    loadBalance: function(room) {
+        var upgraders = _.filter(Game.creeps, function (creep) { return creep.memory.role == "upgrader" && creep.room == room; });
+        var sources = utilsRoom.getAllSources(room);
+        var sinks = [];
+
+        //Generate sinks mapping
+        for (var src in sources) {
+            sinks[sources[src]] = sources[src].pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (o) => {
+                    return (o instanceof StructureContainer ||
+                        o instanceof StructureStorage);
+                }
+            });
+        }
+
+        for(var i = 0; i < upgraders.length; i++) {
+            var source = sources[i % sources.length];
+            upgraders[i].memory.source = sinks[source].id;
         }
     }
 };
