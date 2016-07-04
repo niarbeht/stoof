@@ -1,3 +1,5 @@
+var roleHarvester = require('role.harvester');
+
 var utils = {
 
     /** @param {int} newTarget **/
@@ -51,6 +53,12 @@ var utils = {
         }
         j /= Memory.cpuBuf.length;
         console.log("Average CPU " + j);
+    },
+    
+    balanceHarvesters: function() {
+        for (var rName in Game.rooms) {
+            roleHarvester.loadBalance(Game.rooms[rName]);
+        }
     }
 };
 

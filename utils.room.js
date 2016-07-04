@@ -127,7 +127,7 @@ var utilsRoom = {
                 filter: (o) => {
                     return (o instanceof StructureContainer ||
                         o instanceof StructureStorage) &&
-                        (o.store[RESOURCE_ENERGY] > (o.storeCapacity >> 2))
+                        (o.store[RESOURCE_ENERGY] > (o.storeCapacity >> 1))
                 }
             });
         containersAndStorages_LT[room] = Game.time;
