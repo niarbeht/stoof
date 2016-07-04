@@ -80,11 +80,11 @@ module.exports.loop = function () {
 
     console.log(numHarvesters + ' Harvesters, ' + numUpgraders + ' Upgraders, ' + numBuilders + ' Builders, ' + numMaintainers + ' Maintainers, ' + numDefenders + ' Defenders, ' + numDistributors + ' Distributors');
 
-    if (Game.spawns.Origin.spawning == null) {
+    if (Game.spawns.Spawn1.spawning == null) {
         if (numHarvesters < desiredHarvesters) {
             var harvesterLoadout = [MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY];
-            if(Game.spawns.Origin.canCreateCreep(harvesterLoadout) == OK) {
-                var newName = Game.spawns.Origin.createCreep(harvesterLoadout, undefined, {role: 'harvester', source: '', sink: ''}); //or 55db32ccefa8e3fe66e0542a 
+            if(Game.spawns.Spawn1.canCreateCreep(harvesterLoadout) == OK) {
+                var newName = Game.spawns.Spawn1.createCreep(harvesterLoadout, 'harvester.' + Game.time, {role: 'harvester', source: '', sink: ''}); //or 55db32ccefa8e3fe66e0542a 
                 switch(newName) {
                     case ERR_NOT_ENOUGH_ENERGY:
                         console.log('Insufficient energy to spawn harvester');
@@ -98,8 +98,8 @@ module.exports.loop = function () {
             }
         } else if (numDistributors < desiredDistributors) {
             var distributorLoadout = [MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY];
-            if(Game.spawns.Origin.canCreateCreep(distributorLoadout) == OK) {
-                var newName = Game.spawns.Origin.createCreep(distributorLoadout, undefined, {role: 'distributor', source: ''});
+            if(Game.spawns.Spawn1.canCreateCreep(distributorLoadout) == OK) {
+                var newName = Game.spawns.Spawn1.createCreep(distributorLoadout, 'distributor.' + Game.time, {role: 'distributor', source: ''});
                 switch(newName) {
                     case ERR_NOT_ENOUGH_ENERGY:
                         console.log('Insufficient energy to spawn distributor');
@@ -110,8 +110,8 @@ module.exports.loop = function () {
             }
         } else if (numUpgraders < desiredUpgraders) {
             var upgraderLoadout = [MOVE,MOVE,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY];
-            if(Game.spawns.Origin.canCreateCreep(upgraderLoadout) == OK) {
-                var newName = Game.spawns.Origin.createCreep(upgraderLoadout, undefined, {role: 'upgrader'});
+            if(Game.spawns.Spawn1.canCreateCreep(upgraderLoadout) == OK) {
+                var newName = Game.spawns.Spawn1.createCreep(upgraderLoadout, 'upgrader.' + Game.time, {role: 'upgrader'});
                 switch(newName) {
                     case ERR_NOT_ENOUGH_ENERGY:
                         console.log('Insufficient energy to spawn upgrader');
@@ -122,8 +122,8 @@ module.exports.loop = function () {
             }
         } else if (numBuilders < desiredBuilders) {
             var builderLoadout = [MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY];
-            if(Game.spawns.Origin.canCreateCreep(builderLoadout) == OK) {
-                var newName = Game.spawns.Origin.createCreep(builderLoadout, undefined, {role: 'builder'});
+            if(Game.spawns.Spawn1.canCreateCreep(builderLoadout) == OK) {
+                var newName = Game.spawns.Spawn1.createCreep(builderLoadout, 'builder.' + Game.time, {role: 'builder'});
                 switch(newName) {
                     case ERR_NOT_ENOUGH_ENERGY:
                         console.log('Insufficient energy to spawn builder');
@@ -134,8 +134,8 @@ module.exports.loop = function () {
             }
         } else if (numMaintainers < desiredMaintainers) {
             var maintainerLoadout = [MOVE,MOVE,WORK,CARRY];
-            if(Game.spawns.Origin.canCreateCreep(maintainerLoadout) == OK) {
-                var newName = Game.spawns.Origin.createCreep(maintainerLoadout, undefined, {role: 'maintainer'});
+            if(Game.spawns.Spawn1.canCreateCreep(maintainerLoadout) == OK) {
+                var newName = Game.spawns.Spawn1.createCreep(maintainerLoadout, 'maintainer.' + Game.time, {role: 'maintainer'});
                 switch(newName) {
                     case ERR_NOT_ENOUGH_ENERGY:
                         console.log('Insufficient energy to spawn maintainer');
@@ -147,8 +147,8 @@ module.exports.loop = function () {
         } else if (numDefenders < desiredDefenders) {
             //Build defenders
             var defenderLoadout = [TOUGH,TOUGH,MOVE,MOVE,MOVE,ATTACK,MOVE,ATTACK,MOVE,ATTACK];
-            if(Game.spawns.Origin.canCreateCreep(defenderLoadout) == OK) {
-                var newName = Game.spawns.Origin.createCreep(defenderLoadout, undefined, {role: 'defender'});
+            if(Game.spawns.Spawn1.canCreateCreep(defenderLoadout) == OK) {
+                var newName = Game.spawns.Spawn1.createCreep(defenderLoadout, 'defender.' + Game.time, {role: 'defender'});
                 switch(newName) {
                 case ERR_NOT_ENOUGH_ENERGY:
                     console.log('Insufficient energy to spawn defender');
@@ -160,8 +160,8 @@ module.exports.loop = function () {
         } else {
             //Build attackers
             var attackerLoadout = [TOUGH,MOVE,ATTACK,MOVE];
-            if(Game.spawns.Origin.canCreateCreep(attackerLoadout) == OK) {
-                var newName = Game.spawns.Origin.createCreep(attackerLoadout, undefined, {role: 'attacker'});
+            if(Game.spawns.Spawn1.canCreateCreep(attackerLoadout) == OK) {
+                var newName = Game.spawns.Spawn1.createCreep(attackerLoadout, 'attacker.' + Game.time, {role: 'attacker'});
                 switch(newName) {
                 case ERR_NOT_ENOUGH_ENERGY:
                     console.log('Insufficient energy to spawn attacker');
