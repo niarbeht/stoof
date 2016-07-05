@@ -135,7 +135,7 @@ var roleWorker = {
             var staging = creep.room.find(FIND_FLAGS, {
                 filter: (f) => {
                     return (f.color == COLOR_GREEN);
-                    }
+                }
             });
             if(staging.length) {
                 creep.moveTo(staging[0]);

@@ -23,7 +23,7 @@ var roleUpgrader = {
         else {
             var source = Game.getObjectById(creep.memory.source);
             
-            if(source.store[RESOURCE_ENERGY] > (source.storeCapacity >> 1)) {
+            if(source != null && source.store[RESOURCE_ENERGY] > (0)) {
                 if(source.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
                 }
@@ -45,23 +45,34 @@ var roleUpgrader = {
     
     loadBalance: function(room) {
         var upgraders = _.filter(Game.creeps, function (creep) { return creep.memory.role == "upgrader" && creep.room == room; });
-        var sources = utilsRoom.getAllSources(room);
-        var sinks = [];
-
-        //Generate sinks mapping
-        for (var src in sources) {
-            sinks[sources[src]] = sources[src].pos.findClosestByRange(FIND_STRUCTURES, {
+        // var sources = utilsRoom.getAllSources(room);
+        // var sinks = [];
+        
+        var also = room.controller.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (o) => {
                     return (o instanceof StructureContainer ||
                         o instanceof StructureStorage);
                 }
             });
+            
+        for(var i = 0; i < upgraders.length; i++) {
+            upgraders[i].memory.source = also.id;
         }
 
-        for(var i = 0; i < upgraders.length; i++) {
-            var source = sources[i % sources.length];
-            upgraders[i].memory.source = sinks[source].id;
-        }
+        //Generate sinks mapping
+        // for (var src in sources) {
+        //     sinks[sources[src]] = sources[src].pos.findClosestByRange(FIND_STRUCTURES, {
+        //         filter: (o) => {
+        //             return (o instanceof StructureContainer ||
+        //                 o instanceof StructureStorage);
+        //         }
+        //     });
+        // }
+
+        // for(var i = 0; i < upgraders.length; i++) {
+        //     var source = sources[i % sources.length];
+        //     upgraders[i].memory.source = sinks[source].id;
+        // }
     }
 };
 
